@@ -6,13 +6,15 @@ namespace ConsoleApp1
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-            var exercice = 35;
+            var exercice = 29;
 
             switch (exercice)
             {
+                case 29:
+                    Console.WriteLine(GetValueInTriangle(67, 34));
+                    break;
                 case 32:
                     #region 32 Closest To Zero
                     Console.WriteLine(ClosestToZero(new int[] { 12, 30, 11, 99, 5, 10 })); // 5
@@ -97,6 +99,21 @@ namespace ConsoleApp1
                     Console.WriteLine("Result for W: [" + asciiArt.ScanChar(asciiArt.PrintChar('W')) + "]");
                     #endregion
                     break;
+                case 38:
+                    #region 38 Pairs Chess Tournament
+                    Console.WriteLine(CountPairs(4));
+                    Console.WriteLine(CountPairs(10000));
+                    #endregion
+                    break;
+                case 601:
+                    #region 601 Count Numbers In Array
+                    int[] array = {0, 1, 2, 3, 4, 5, 3};
+                    Console.WriteLine(CountNumbersInArray(array, 0, 1)); // 1
+                    Console.WriteLine(CountNumbersInArray(array, 0, 5)); // 15
+                    Console.WriteLine(CountNumbersInArray(array, 0, 0)); // 0
+                    Console.WriteLine(CountNumbersInArray(array, 0, 6)); // 18
+                    #endregion
+                    break;
                 case 999:
                     #region 999 Exo Simple
                     // Exercice 1
@@ -115,12 +132,48 @@ namespace ConsoleApp1
                     }
                     #endregion;
                     break;
+                case 1000:
+                    CodeResult.Demo();
+                    break;
                 default:
                     break;
             }
 
             Console.Read();
         }
+
+        #region 29 Pascal Triangle
+
+        public static ulong GetValueInTriangle(int l, int c)
+        {
+            var values = new List<ulong>();
+            values.Add(1);
+            values.Add(1);
+
+
+            for (int i = 1; i <= Int32.MaxValue; i++)
+            
+            {
+                if (i == l)
+                    return values[c];
+
+                //for (int j = 0; j < i; j += 1)
+                //{
+                //    Console.Write($" {values[j]}");
+                //}
+
+                for (int j = i; j > 0; j--)
+                {
+                    values[j] += values[j - 1];
+                }
+
+                values.Add(1);
+            }
+
+            return 0;
+        }
+
+        #endregion
 
         #region 32 Closest To Zero
 
@@ -171,11 +224,13 @@ namespace ConsoleApp1
   
                 foreach(var point in pts)
                 {
-                    if ((point.x * point.x) + (point.y * point.y) <= 1)
+                    //if ((point.x * point.x) + (point.y * point.y) <= 1)
+                    if ((Math.Pow(point.x, 2)) + (Math.Pow(point.y, 2)) <= 1)
                         insidePoint++;
                 }
 
-                return 4 * insidePoint / pts.Length;
+                // insidePoint / total * 4 = Pi
+                return insidePoint / pts.Length * 4;
             }
         }
 
@@ -252,6 +307,15 @@ namespace ConsoleApp1
 
         #endregion
 
+        #region 38 Pairs Chess Tournament
+        public static int CountPairs(int players)
+        {
+            var result = (players - 1) * players / 2;
+
+            return result;
+        }
+        #endregion
+
         #region 33 Tree Exercice
         public class Node
         {
@@ -295,6 +359,20 @@ namespace ConsoleApp1
             /// </summary>
             public int Steps { get; set; }
             #endregion
+        }
+        #endregion
+
+        #region 601 Count Numbers In Array
+        public static int CountNumbersInArray(int[] array, int n1, int n2)
+        {
+            int result = 0;
+
+            for (int i = n1; i<= n2; i++)
+            {
+                result += array[i];
+            }
+
+            return result;
         }
         #endregion
 
