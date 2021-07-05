@@ -147,12 +147,10 @@ namespace ConsoleApp1
         public static ulong GetValueInTriangle(int l, int c)
         {
             var values = new List<ulong>();
-            values.Add(1);
-            values.Add(1);
+            values.Add(1); // Add value base
+            values.Add(1); // Add value second turn
 
-
-            for (int i = 1; i <= Int32.MaxValue; i++)
-            
+            for (int i = 1; i <= Int32.MaxValue; i++) 
             {
                 if (i == l)
                     return values[c];
