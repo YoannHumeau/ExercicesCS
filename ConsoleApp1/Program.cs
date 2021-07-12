@@ -13,7 +13,10 @@ namespace ConsoleApp1
             switch (exercice)
             {
                 case 29:
-                    Console.WriteLine(GetValueInTriangle(67, 34));
+                    Console.WriteLine(GetValueInTriangle(0, 0));
+                    Console.WriteLine(GetValueInTriangle(50, 50));
+                    Console.WriteLine(GetValueInTriangle(0, 0));
+                    //Console.WriteLine(GetValueInTriangle(67, 34));
                     break;
                 case 32:
                     #region 32 Closest To Zero
@@ -150,6 +153,15 @@ namespace ConsoleApp1
             values.Add(1); // Add value base
             values.Add(1); // Add value second turn
 
+            // Optimize : the values we knows result is 1 (one) whatever are c and l
+            if (c - l == 0)
+                return 1;
+
+            // Optimize : the value we knows equal "l" (l argument)
+            if (c == 1 || l - c == 1)
+                return Convert.ToUInt64(l);
+
+            // Count the line values and if l equals actual line return the value for c
             for (int i = 1; i <= Int32.MaxValue; i++) 
             {
                 if (i == l)
