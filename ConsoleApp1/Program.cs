@@ -8,15 +8,44 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            var exercice = 29;
+            var exercice = 31;
 
             switch (exercice)
             {
                 case 29:
+                    #region 29 Pascal Triangle
                     Console.WriteLine(GetValueInTriangle(0, 0));
                     Console.WriteLine(GetValueInTriangle(50, 50));
                     Console.WriteLine(GetValueInTriangle(0, 0));
                     //Console.WriteLine(GetValueInTriangle(67, 34));
+                    #endregion
+                    break;
+                case 31:
+                    #region 31 Nodes
+                    // Good in orders
+                    int[] fromIds = { 1, 7, 3, 4, 2, 6, 9 };
+                    int[] toIds = { 3, 3, 4, 6, 6, 9, 5 };
+
+                    // Good but with other orders
+                    //int[] fromIds = { 6, 2, 7, 3, 4, 9, 1 };
+                    //int[] toIds =   { 9, 6, 3, 4, 6, 5, 3 };
+
+                    //// Loop 1 returns
+                    //int[] fromIds = { 1, 7, 3, 4, 2, 6, 9, 5 };
+                    //int[] toIds =   { 3, 3, 4, 6, 6, 9, 5, 4 };
+
+                    //// Loop 2 returns 4
+                    //int[] fromIds = { 1, 7, 3, 4, 2, 6, 9 };
+                    //int[] toIds =   { 3, 3, 4, 1, 6, 9, 5 };
+
+                    //// Loop 3 returns 7
+                    //int[] fromIds = { 1, 7, 3, 4, 2, 6, 9 };
+                    //int[] toIds =   { 3, 3, 4, 7, 6, 9, 5 };
+
+                    int startNodeId = 1;
+
+                    Console.WriteLine(FindNetworkEndpoint(startNodeId, fromIds, toIds));
+                    #endregion
                     break;
                 case 32:
                     #region 32 Closest To Zero
@@ -65,7 +94,7 @@ namespace ConsoleApp1
                         }
                     };
 
-                    var listTest = new int[] { 8, 15, 16, 7, 9, 13};
+                    var listTest = new int[] { 8, 15, 16, 7, 9, 13 };
 
                     foreach (var i in listTest)
                     {
@@ -80,7 +109,7 @@ namespace ConsoleApp1
                     #region 35 Count Pi
                     var rands = new Point[100000];
                     Random random = new Random();
-                    for (int i=0; i < rands.Length; i++)
+                    for (int i = 0; i < rands.Length; i++)
                     {
                         rands[i] = new Point
                         {
@@ -110,7 +139,7 @@ namespace ConsoleApp1
                     break;
                 case 601:
                     #region 601 Count Numbers In Array
-                    int[] array = {0, 1, 2, 3, 4, 5, 3};
+                    int[] array = { 0, 1, 2, 3, 4, 5, 3 };
                     Console.WriteLine(CountNumbersInArray(array, 0, 1)); // 1
                     Console.WriteLine(CountNumbersInArray(array, 0, 5)); // 15
                     Console.WriteLine(CountNumbersInArray(array, 0, 0)); // 0
@@ -162,7 +191,7 @@ namespace ConsoleApp1
                 return Convert.ToUInt64(l);
 
             // Count the line values and if l equals actual line return the value for c
-            for (int i = 1; i <= Int32.MaxValue; i++) 
+            for (int i = 1; i <= Int32.MaxValue; i++)
             {
                 if (i == l)
                     return values[c];
@@ -181,6 +210,43 @@ namespace ConsoleApp1
             }
 
             return 0;
+        }
+
+        #endregion
+
+        #region 31 Nodes
+
+        public static int FindNetworkEndpoint(int startNodeId, int[] fromIds, int[] toIds)
+        {
+            var dictionnaryNodes = new Dictionary<int, int>();
+            var visitedNodes = new HashSet<int>();
+
+            for (int i = 0; i < fromIds.Length; i++)
+            {
+                dictionnaryNodes.Add(fromIds[i], toIds[i]);
+            }
+
+            //getNode(startNodeId);
+            var node = startNodeId;
+            int nodeOut;
+
+            while (dictionnaryNodes.TryGetValue(node, out nodeOut))
+            {
+                if (visitedNodes.Contains(nodeOut))
+                    break;
+
+                visitedNodes.Add(node);
+                node = nodeOut;
+            }
+
+            return node;
+        }
+
+        private static int? getNode(int nodeId)
+        {
+            
+
+            return null;
         }
 
         #endregion
@@ -217,6 +283,52 @@ namespace ConsoleApp1
             return result;
         }
 
+        #endregion
+
+        #region 33 Tree Exercice
+        public class Node
+        {
+            public Node left, right;
+
+            public int value;
+
+            public Node Find(int value)
+            {
+                Result = null;
+                Steps = 0; // Count the steps (This one is just for dev, used to optimize code)
+
+                AnalyseTree(this, value, Result);
+
+                Console.Write($"Test:{value}   \t Steps:[{Steps}] \t");
+                return Result;
+            }
+
+            #region Private Recurcive
+            private void AnalyseTree(Node node, int value, Node result)
+            {
+                Steps += 1;
+
+                if (node.value == value)
+                {
+                    Result = node;
+                    return;
+                }
+
+                if (node.left != null && Result == null)
+                    AnalyseTree(node.left, value, Result);
+
+                if (node.right != null && Result == null)
+                    AnalyseTree(node.right, value, Result);
+            }
+
+            private Node Result { get; set; }
+
+            /// <summary>
+            /// not in the exercice but I added it to see process optimisation
+            /// </summary>
+            public int Steps { get; set; }
+            #endregion
+        }
         #endregion
 
         #region 35 Count Pi
@@ -323,52 +435,6 @@ namespace ConsoleApp1
             var result = (players - 1) * players / 2;
 
             return result;
-        }
-        #endregion
-
-        #region 33 Tree Exercice
-        public class Node
-        {
-            public Node left, right;
-
-            public int value;
-
-            public Node Find(int value)
-            {
-                Result = null;
-                Steps = 0; // Count the steps (This one is just for dev, used to optimize code)
-
-                AnalyseTree(this, value, Result);
-
-                Console.Write($"Test:{value}   \t Steps:[{Steps}] \t");
-                return Result;
-            }
-
-            #region Private Recurcive
-            private void AnalyseTree(Node node, int value, Node result)
-            {
-                Steps += 1;
-
-                if (node.value == value)
-                {
-                    Result = node;
-                    return;
-                }
-
-                if (node.left != null && Result == null)
-                    AnalyseTree(node.left, value, Result);
-
-                if (node.right != null && Result == null)
-                    AnalyseTree(node.right, value, Result);
-            }
-
-            private Node Result { get; set; }
-
-            /// <summary>
-            /// not in the exercice but I added it to see process optimisation
-            /// </summary>
-            public int Steps { get; set; }
-            #endregion
         }
         #endregion
 
